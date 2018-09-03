@@ -1,4 +1,7 @@
 package ee.sda.maven.messagingapp;
+
+import java.io.IOException;
+
 public class FileUserService {
     IOUtils ioUtils;
 
@@ -7,15 +10,28 @@ public class FileUserService {
     }
 
 
-    public void addUser(){
+    public void addUser() throws IOException {
         //try{
         ioUtils.writeMessage("Enter email: ");
         String email = ioUtils.readNextLine();
+        // should I put regEx email validation here???
+
+        // account uniqueness and account creation
         if (ioUtils.fileExist(email + ".txt")) {
             ioUtils.writeMessage("User already exist");
+        } else {
+            ioUtils.writeMessage("Enter password: ");
+            String password = ioUtils.readNextLine();
+            ioUtils.writeMessage("Enter name: ");
+            String name = ioUtils.readNextLine();
+            ioUtils.writeMessage("Enter your age: ");
+            String age = ioUtils.readNextLine();
+            ioUtils.readNextLine();
+            // write to file
+            ioUtils.writeToFile(email, password, name, age);
+            ioUtils.writeMessage("A new account with your email has been created");
             return;
         }
-        ioUtils.writeMessage("All good");
 
 //            System.out.println("Enter your password");
 //            String password = scanner.nextLine();

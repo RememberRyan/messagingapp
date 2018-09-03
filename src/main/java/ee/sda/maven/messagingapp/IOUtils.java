@@ -1,9 +1,12 @@
 package ee.sda.maven.messagingapp;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
+
+import static java.util.Arrays.asList;
 
 public class IOUtils {
 
@@ -29,5 +32,9 @@ public class IOUtils {
 
     public String readNextLine() {
         return scanner.nextLine();
+    }
+
+    public void writeToFile(String email, String password, String name, String age) throws IOException {
+        Files.write(Paths.get("/Users/Alex/IdeaProjects/messagingapp/" + email + ".txt" ), asList(email, password, name, age));
     }
 }

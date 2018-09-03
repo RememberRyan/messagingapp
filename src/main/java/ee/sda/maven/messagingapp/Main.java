@@ -1,8 +1,9 @@
 package ee.sda.maven.messagingapp;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         FileUserService fileUserService = new FileUserService(new IOUtils());
         while (true) {

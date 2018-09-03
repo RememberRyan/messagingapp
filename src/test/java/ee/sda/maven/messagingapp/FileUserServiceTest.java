@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.io.IOException;
+
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -29,9 +31,9 @@ public class FileUserServiceTest {
     }
 
     @Test
-    public void addUser_RejectsUserInputEmail_IfUserEmailAlreadyExist() {
+    public void addUser_RejectsUserInputEmail_IfUserEmailAlreadyExist() throws IOException {
         // given
-        when(ioUtils.readNextLine()).thenReturn("check");
+        when(ioUtils.readNextLine()).thenReturn("krislinjurgen@gmail.com");
         when(ioUtils.fileExist(anyString())).thenReturn(true);
 
         // when
@@ -44,7 +46,7 @@ public class FileUserServiceTest {
     }
 
     @Test
-    public void addUser_AcceptsUserInputEmail_IfUserEmailDoesNotExist() {
+    public void addUser_AcceptsUserInputEmail_IfUserEmailDoesNotExist() throws IOException {
         // given
         when(ioUtils.readNextLine()).thenReturn("check");
         when(ioUtils.fileExist(anyString())).thenReturn(false);
@@ -59,21 +61,20 @@ public class FileUserServiceTest {
     }
 
 
-//    @Test
-//    public void addUser_AcceptsUserInputEmail_IfUserEmailPassesValidation() {
-//        // given
-//        when(ioUtils.readNextLine()).thenReturn("check");
-//        when(ioUtils.fileExist(anyString())).thenReturn(false);
-//
-//        // when
-//        fileUserService.addUser();
-//        verify(ioUtils).writeMessage(eq("Enter email: "));
-//        ioUtils.scanner.nextLine("hello@gmail.com");
-//
-//
-//        // then
-//
-//        verify(ioUtils).writeMessage(eq("All good"));
-//    }
+    @Test
+    public void addUser_AcceptsUserInputEmail_IfUserEmailPassesValidation() throws IOException {
+        // given
+        when(ioUtils.readNextLine()).thenReturn("Jurgen@gmail.com");
+        when(ioUtils.fileExist(anyString())).thenReturn(false);
+
+        // when
+        fileUserService.addUser();
+        verify(ioUtils).writeMessage(eq("Enter email: "));
+
+
+        // then
+
+        verify(ioUtils).writeMessage(eq("All good"));
+    }
 
 }
