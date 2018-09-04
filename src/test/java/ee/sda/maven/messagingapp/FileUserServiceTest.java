@@ -61,11 +61,12 @@ public class FileUserServiceTest {
     }
 
 
+    // incomplete test
     @Test
     public void addUser_AcceptsUserInputEmail_IfUserEmailPassesValidation() throws IOException {
         // given
         when(ioUtils.readNextLine()).thenReturn("Jurgen@gmail.com");
-        when(ioUtils.fileExist(anyString())).thenReturn(false);
+        when(ioUtils.isEmailValid(anyString())).thenReturn(false);
 
         // when
         fileUserService.addUser();
