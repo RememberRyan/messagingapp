@@ -4,6 +4,7 @@ import java.io.IOException;
 
 public class FileUserService {
     IOUtils ioUtils;
+    VerificationUtil verificationUtil;
 
     public FileUserService(IOUtils ioUtils) {
         this.ioUtils = ioUtils;
@@ -14,7 +15,7 @@ public class FileUserService {
         ioUtils.writeMessage("Enter email: ");
         String email = ioUtils.readNextLine();
         // regEx email validation
-        if (ioUtils.isEmailValid(email)) {
+        if (verificationUtil.isEmailValid(email)) {
             if (ioUtils.fileExist(email + ".txt")) {
                 ioUtils.writeMessage("User already exist");
             } else {

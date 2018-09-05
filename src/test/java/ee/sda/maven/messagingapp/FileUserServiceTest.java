@@ -18,6 +18,7 @@ public class FileUserServiceTest {
 
     @Mock
     IOUtils ioUtils;
+    VerificationUtil verificationUtil;
 
     FileUserService fileUserService;
 
@@ -66,7 +67,7 @@ public class FileUserServiceTest {
     public void addUser_AcceptsUserInputEmail_IfUserEmailPassesValidation() throws IOException {
         // given
         when(ioUtils.readNextLine()).thenReturn("Jurgen@gmail.com");
-        when(ioUtils.isEmailValid(anyString())).thenReturn(false);
+        when(verificationUtil.isEmailValid(anyString())).thenReturn(false);
 
         // when
         fileUserService.addUser();
