@@ -47,9 +47,9 @@ public class FileUserServiceTest {
     }
 
     @Test
-    public void addUser_AcceptsUserInputEmail_IfUserEmailDoesNotExist() throws IOException {
+    public void addUser_RejectsUserInputEmail_IfUserEmailDoesNotExistAndFailsVerification() throws IOException {
         // given
-        when(ioUtils.readNextLine()).thenReturn("check");
+        when(ioUtils.readNextLine()).thenReturn("@ BrandNewValidEmail@gmail.com");
         when(ioUtils.fileExist(anyString())).thenReturn(false);
 
         // when
@@ -57,26 +57,23 @@ public class FileUserServiceTest {
 
         // then
         verify(ioUtils).writeMessage(eq("Enter email: "));
-
-        verify(ioUtils).writeMessage(eq("All good"));
+        ioUtils.writeMessage("Invalid email used. Please try again. \n");
     }
 
 
-    // incomplete test
     @Test
-    public void addUser_AcceptsUserInputEmail_IfUserEmailPassesValidation() throws IOException {
+    public void addUser_AcceptsUserInputEmail_IfUserEmailDoesNotExistAndPassesVerification() throws IOException {
         // given
-        when(ioUtils.readNextLine()).thenReturn("Jurgen@gmail.com");
-        when(verificationUtil.isEmailValid(anyString())).thenReturn(false);
+        when(ioUtils.readNextLine()).thenReturn("BrandNewValidEmail@gmail.com");
+        when(ioUtils.fileExist(anyString())).thenReturn(false);
 
         // when
         fileUserService.addUser();
-        verify(ioUtils).writeMessage(eq("Enter email: "));
 
 
         // then
-
-        verify(ioUtils).writeMessage(eq("All good"));
+        verify(ioUtils).writeMessage(eq("Enter email: "));
+        verify(ioUtils).writeMessage(eq("A new account with your email has been created"));
     }
 
 }
