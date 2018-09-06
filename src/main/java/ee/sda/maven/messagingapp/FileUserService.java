@@ -33,31 +33,30 @@ public class FileUserService {
         } else {
             System.out.println("Invalid email used. Please try again. \n");
         }
+        return;
     }
 
     // login functionality
-//    public void login() {
-//        // request user email login
-//        ioUtils.writeMessage("Enter your login email: ");
-//        String email = ioUtils.readNextLine();
-//        if (ioUtils.fileExist(email + ".txt")) {
-//            if ioUtils.readPasswordFromFile(password) = email;
-//
-//        } else {
-//            ioUtils.writeMessage("This account does not exist");
-//        }
-//
-//        // verify email exists
-//
-//        // request user email password
-//
-//        // read and match the second line of that file to user input
-//
-//        // if password match, prompt user login successful
-//
-//        // if password fail, prompt user password is not a match
-//        return;
-//    }
+    public void login() throws IOException {
+        // request user email login
+        ioUtils.writeMessage("Enter your login email: ");
+        String email = ioUtils.readNextLine();
+        if (ioUtils.fileExist(email + ".txt")) {
 
+            // text file reading
+            ioUtils.writeMessage("Enter your password: ");
+            String password = ioUtils.readNextLine();
+            if (ioUtils.readPasswordFromFile(email).equals(password)){
+                ioUtils.writeMessage("You have successfully logged in. \nChoose another option.\n");
+            } else {
+                ioUtils.writeMessage("Your login details are incorrect.\nPlease choose another option.\n");
+            }
+
+        } else {
+            ioUtils.writeMessage("This account does not exist \n");
+        }
+
+        return;
+    }
 
 }

@@ -16,7 +16,7 @@ public class Main {
                     fileUserService.addUser();
                     break;
                 case 2:
-                    //fileUserService.login();
+                    fileUserService.login();
                     break;
                 case 0:
                     return;

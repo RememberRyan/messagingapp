@@ -39,9 +39,9 @@ public class FileUserServiceTest {
 
         // when
         fileUserService.addUser();
+        verify(ioUtils).writeMessage(eq("Enter email: "));
 
         // then
-        verify(ioUtils).writeMessage(eq("Enter email: "));
 
         verify(ioUtils).writeMessage(eq("User already exist"));
     }
@@ -54,9 +54,9 @@ public class FileUserServiceTest {
 
         // when
         fileUserService.addUser();
+        verify(ioUtils).writeMessage(eq("Enter email: "));
 
         // then
-        verify(ioUtils).writeMessage(eq("Enter email: "));
         ioUtils.writeMessage("Invalid email used. Please try again. \n");
     }
 
@@ -69,11 +69,29 @@ public class FileUserServiceTest {
 
         // when
         fileUserService.addUser();
+        verify(ioUtils).writeMessage(eq("Enter email: "));
 
 
         // then
-        verify(ioUtils).writeMessage(eq("Enter email: "));
         verify(ioUtils).writeMessage(eq("A new account with your email has been created"));
     }
+
+    // incomplete
+    @Test
+    public void login_RejectsUserPassword_IfUserEmailsPasswordDoesNotMatch() throws IOException {
+        // given
+        when(ioUtils.readNextLine()).thenReturn("notthepassword");
+        when(ioUtils.readPasswordFromFile("krislinjurgen@gmail.com")).thenReturn("pa55w0rd");
+
+        // when
+        fileUserService.login();
+
+
+        // then
+        verify(ioUtils.writeMessage("Enter your login email: ");
+        verify(ioUtils).writeMessage(eq("Enter your password: "));
+        verify(ioUtils).writeMessage(eq("Your login details are incorrect.\nPlease choose another option.\n"));
+    }
+
 
 }

@@ -5,10 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
-import java.util.regex.Pattern;
+
+import static java.util.Arrays.asList;
 
 // needed to read in user details as an array for writeToFile method
-import static java.util.Arrays.asList;
 
 
 public class IOUtils {
@@ -45,15 +45,9 @@ public class IOUtils {
                 asList(email, password, name, age));
     }
 
-    public void readPasswordFromFile(String email, String password) {
-        int passwordLineNumber = 2;
-        try {
-            String str = Files.lines(Paths.get("/Users/Alex/IdeaProjects/messagingapp/" + email + ".txt")).skip(passwordLineNumber - 1).findFirst().get();
-            System.out.println("Content at " + passwordLineNumber + " Number:- " + str);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    // return the password from correct line number that has the password from the entered email.txt file
+    public String readPasswordFromFile(String email) throws IOException {
+          return   Files.readAllLines(Paths.get("/Users/Alex/IdeaProjects/messagingapp/"  + email + ".txt")).get(1);
     }
 
 
