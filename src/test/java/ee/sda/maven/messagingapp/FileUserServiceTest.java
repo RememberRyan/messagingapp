@@ -49,8 +49,11 @@ public class FileUserServiceTest {
     @Test
     public void addUser_RejectsUserInputEmail_IfUserEmailDoesNotExistAndFailsVerification() throws IOException {
         // given
-        when(ioUtils.readNextLine()).thenReturn("@ BrandNewValidEmail@gmail.com");
+        /*
+        Not necessary because email user input is rejected whether the file exists or not
         when(ioUtils.fileExist(anyString())).thenReturn(false);
+         */
+        when(ioUtils.readNextLine()).thenReturn("@ BrandNewValidEmail@gmail.com");
 
         // when
         fileUserService.addUser();
@@ -76,22 +79,61 @@ public class FileUserServiceTest {
         verify(ioUtils).writeMessage(eq("A new account with your email has been created"));
     }
 
-    // incomplete
     @Test
-    public void login_RejectsUserPassword_IfUserEmailsPasswordDoesNotMatch() throws IOException {
+    public void login_AcceptsUserPassword_IfUserEmailsPasswordMatches() throws IOException {
         // given
-        when(ioUtils.readNextLine()).thenReturn("notthepassword");
-        when(ioUtils.readPasswordFromFile("krislinjurgen@gmail.com")).thenReturn("pa55w0rd");
+        // given the file  already exists (true)
+        when(ioUtils.fileExist("krislinjurgen@gmail.com.txt")).thenReturn(true);
+        // user inputs the email and then incorrect password
+        when(ioUtils.readNextLine()).thenReturn("krislinjurgen@gmail.com").thenReturn("correctpassword");
+        // the app returns correct password
+        when(ioUtils.readPasswordFromFile("krislinjurgen@gmail.com")).thenReturn("correctpassword");
 
         // when
         fileUserService.login();
-
+        verify(ioUtils).writeMessage(eq("Enter your login email: "));
+        verify(ioUtils).writeMessage(eq("Enter your password: "));
 
         // then
-        verify(ioUtils.writeMessage("Enter your login email: ");
+        verify(ioUtils).writeMessage(eq("You have successfully logged in. \nChoose another option.\n"));
+    }
+
+    @Test
+    public void login_RejectsUserPassword_IfUserEmailsPasswordDoesNotMatch() throws IOException {
+        // given
+        // given the file  already exists (true)
+        when(ioUtils.fileExist("krislinjurgen@gmail.com.txt")).thenReturn(true);
+        // user inputs the email and then incorrect password
+        when(ioUtils.readNextLine()).thenReturn("krislinjurgen@gmail.com").thenReturn("notthepassword");
+        // the app returns correct password
+        when(ioUtils.readPasswordFromFile("krislinjurgen@gmail.com")).thenReturn("correctpassword");
+
+        // when
+        fileUserService.login();
+        verify(ioUtils).writeMessage(eq("Enter your login email: "));
         verify(ioUtils).writeMessage(eq("Enter your password: "));
+
+        // then
         verify(ioUtils).writeMessage(eq("Your login details are incorrect.\nPlease choose another option.\n"));
     }
 
+    @Test
+    public void login_RejectsUserPassword_IfUserEmailsPasswordDoesNotMatchCaseSensitivity() throws IOException {
+        // given
+        // given the file  already exists (true)
+        when(ioUtils.fileExist("krislinjurgen@gmail.com.txt")).thenReturn(true);
+        // user inputs the email and then incorrect password
+        when(ioUtils.readNextLine()).thenReturn("krislinjurgen@gmail.com").thenReturn("Correctpassword");
+        // the app returns correct password
+        when(ioUtils.readPasswordFromFile("krislinjurgen@gmail.com")).thenReturn("correctpassword");
+
+        // when
+        fileUserService.login();
+        verify(ioUtils).writeMessage(eq("Enter your login email: "));
+        verify(ioUtils).writeMessage(eq("Enter your password: "));
+
+        // then
+        verify(ioUtils).writeMessage(eq("Your login details are incorrect.\nPlease choose another option.\n"));
+    }
 
 }
