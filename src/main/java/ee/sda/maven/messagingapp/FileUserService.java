@@ -5,6 +5,7 @@ import java.io.IOException;
 public class FileUserService {
     IOUtils ioUtils;
     VerificationUtil verificationUtil;
+    PasswordUtils passwordUtils;
 
     public FileUserService(IOUtils ioUtils) {
         this.ioUtils = ioUtils;
@@ -20,7 +21,8 @@ public class FileUserService {
                 ioUtils.writeMessage("User already exist");
             } else {
                 ioUtils.writeMessage("Enter password: ");
-                String password = ioUtils.readNextLine();
+                String password = passwordUtils.readPassword("Enter asterix password: ");
+                System.out.println("The password entered is: "+password);
                 ioUtils.writeMessage("Enter name: ");
                 String name = ioUtils.readNextLine();
                 ioUtils.writeMessage("Enter your age: ");
