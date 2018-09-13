@@ -1,5 +1,6 @@
 package ee.sda.maven.messagingapp;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,13 +9,12 @@ import java.util.Scanner;
 
 import static java.util.Arrays.asList;
 
-// needed to read in user details as an array for writeToFile method
+// needed to read in user details as an array for writeNewUserToFile method
 
 
 public class IOUtils {
 
     Scanner scanner;
-
 
 
     public IOUtils() {
@@ -39,17 +39,23 @@ public class IOUtils {
         return scanner.nextLine();
     }
 
-    public void writeToFile(String email, String password, String name, String age) throws IOException {
-        Files.write(Paths.get("/Users/Alex/IdeaProjects/messagingapp/" + email + ".txt" ),
+    public void writeNewUserToFile(String email, String password, String name, String age) throws IOException {
+        Files.write(Paths.get("./" + email + ".txt"),
                 // reads in user details as an array
                 asList(email, password, name, age));
     }
 
-    // return the password from correct line number that has the password from the entered email.txt file
-    public String readPasswordFromFile(String email) throws IOException {
-          return   Files.readAllLines(Paths.get("/Users/Alex/IdeaProjects/messagingapp/"  + email + ".txt")).get(1);
+    public void writeNewMessageToChatFile(String email, String newChatMessage) throws IOException {
+        // Files.write(Paths.get("./chats/chat.txt" ), Collections.singletonList(newChatMessage));
+
+        FileWriter fileWriter = new FileWriter("./chats/chat.txt", true);
+        fileWriter.write(email + ": " + newChatMessage + "\n");
+        fileWriter.close();
     }
 
-
+    // return the password from correct line number that has the password from the entered email.txt file
+    public String readPasswordFromFile(String email) throws IOException {
+        return Files.readAllLines(Paths.get("./" + email + ".txt")).get(1);
+    }
 
 }

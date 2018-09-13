@@ -1,4 +1,5 @@
-package ee.sda.maven.messagingapp;
+package ee.sda.maven.messagingapp.user;
+
 public class User {
     private String email;
     private String name;

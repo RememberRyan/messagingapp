@@ -1,0 +1,2 @@
+test7@gmail.com: This is the first line of the chat message
+test8@gmail.com: Hellow friends of SDA!

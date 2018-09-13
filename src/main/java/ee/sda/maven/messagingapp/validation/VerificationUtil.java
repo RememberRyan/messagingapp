@@ -1,4 +1,4 @@
-package ee.sda.maven.messagingapp;
+package ee.sda.maven.messagingapp.validation;
 
 import java.util.regex.Pattern;
 

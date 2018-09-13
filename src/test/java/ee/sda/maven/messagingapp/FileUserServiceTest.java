@@ -1,4 +1,6 @@
 package ee.sda.maven.messagingapp;
+import ee.sda.maven.messagingapp.service.FileUserService;
+import ee.sda.maven.messagingapp.validation.VerificationUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +26,11 @@ public class FileUserServiceTest {
 
     @Before
     public void setUp() throws Exception {
+        /*
+        Stopped working ????
         fileUserService = new FileUserService(ioUtils);
+         */
+        fileUserService = new FileUserService();
     }
 
     @After

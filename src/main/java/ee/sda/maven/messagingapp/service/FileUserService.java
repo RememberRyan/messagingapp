@@ -1,39 +1,47 @@
-package ee.sda.maven.messagingapp;
+package ee.sda.maven.messagingapp.service;
+
+import ee.sda.maven.messagingapp.IOUtils;
+import ee.sda.maven.messagingapp.user.User;
+import ee.sda.maven.messagingapp.validation.VerificationUtil;
 
 import java.io.IOException;
 
 public class FileUserService {
-    IOUtils ioUtils;
+    IOUtils ioUtils = new IOUtils();
     VerificationUtil verificationUtil;
 
-    public FileUserService(IOUtils ioUtils) {
-        this.ioUtils = ioUtils;
+    public FileUserService() {
+
     }
 
 
-    public void addUser() throws IOException {
+    public User addUser() throws IOException {
         ioUtils.writeMessage("Enter email: ");
         String email = ioUtils.readNextLine();
+        String name = "";
+        String age = "";
+        String password ="";
         // regEx email validation
         if (verificationUtil.isEmailValid(email)) {
             if (ioUtils.fileExist(email + ".txt")) {
                 ioUtils.writeMessage("User already exist");
             } else {
                 ioUtils.writeMessage("Enter password: ");
-                String password = ioUtils.readNextLine();
+                password = ioUtils.readNextLine();
                 ioUtils.writeMessage("Enter name: ");
-                String name = ioUtils.readNextLine();
+                name = ioUtils.readNextLine();
                 ioUtils.writeMessage("Enter your age: ");
-                String age = ioUtils.readNextLine();
+                age = ioUtils.readNextLine();
                 ioUtils.readNextLine();
                 // write to file
-                ioUtils.writeToFile(email, password, name, age);
+                ioUtils.writeNewUserToFile(email, password, name, age);
                 ioUtils.writeMessage("A new account with your email has been created");
             }
         } else {
             System.out.println("Invalid email used. Please try again. \n");
         }
-        return;
+        // created object user
+        return new User(email, name, Integer.parseInt(age), password);
     }
 
     // login functionality
@@ -46,7 +54,7 @@ public class FileUserService {
             // text file reading
             ioUtils.writeMessage("Enter your password: ");
             String password = ioUtils.readNextLine();
-            if (ioUtils.readPasswordFromFile(email).equals(password)){
+            if (ioUtils.readPasswordFromFile(email).equals(password)) {
                 ioUtils.writeMessage("You have successfully logged in. \nChoose another option.\n");
             } else {
                 ioUtils.writeMessage("Your login details are incorrect.\nPlease choose another option.\n");
